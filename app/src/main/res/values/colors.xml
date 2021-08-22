@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#81D4FA</color>
+    <color name="colorPrimaryDark">#29B6F6</color>
+    <color name="colorPrimaryDarker">#039BE5</color>
+    <color name="colorAccent">#535050</color> //maze walls and button color
+    <color name="windowBackground">#E1F5FE</color>
+    <color name="orange">#FF9800</color>//when getting out of lines
+    <color name="red">#FF0000</color>//when getting out of lines
+    <color name="purple">#9C27B0</color>//solver hint
+    <color name="path">#16E11E</color> // finger line color
+</resources>
