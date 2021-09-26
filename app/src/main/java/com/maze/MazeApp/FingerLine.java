@@ -76,7 +76,7 @@ public class FingerLine extends View {
                 mPath.moveTo(event.getX(), event.getY());
                 if (xInCell && yInCell) {
                     mPaint.setColor(ContextCompat.getColor(getContext(), R.color.path));
-                    MainActivity.sms.start();
+                    Utilities.sms.start();
                     mazeStarted = true;
                 }
                 return true;
@@ -85,7 +85,7 @@ public class FingerLine extends View {
                     mPath.lineTo(event.getX(), event.getY());
                     if (xInCell && yInCell) {
                         if (flow == 0 && !mazeStarted){
-                            MainActivity.sms.start();
+                            Utilities.sms.start();
                             mazeStarted = true;
                         }
                         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.path));
@@ -94,10 +94,10 @@ public class FingerLine extends View {
                             (event.getY() >= solutionPath[flow + 1][1] && event.getY() <= solutionPath[flow + 1][3])) {
                         flow++;
                     } else {
-                        MainActivity.Vibrate(new long[]{0, 100});
+                        Utilities.Vibrate(new long[]{0, 100});
                     }
                     if (flow == solutionPath.length - 1) {
-                        MainActivity.startGameSolvedAnimation();
+                        MainActivity.util.startGameSolvedAnimation();
                         Toast.makeText(this.getContext(), "Well Done!", Toast.LENGTH_SHORT).show();
                         solvedMaze = true;
                         return true;
@@ -108,6 +108,9 @@ public class FingerLine extends View {
                 flow = 0;
                 mazeStarted = false;
                 MainActivity.vibe.cancel();
+                if(solvedMaze){
+                    MainActivity.util.createMaze();
+                }
                 break;
             default:
                 return false;

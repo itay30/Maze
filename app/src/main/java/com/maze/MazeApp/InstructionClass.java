@@ -23,7 +23,7 @@ public class InstructionClass extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction_class);
 
-        si = MediaPlayer.create(this, R.raw.startinstructions);
+        si = MediaPlayer.create(this, R.raw.startinstructions1);
         si.start();
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -32,7 +32,7 @@ public class InstructionClass extends AppCompatActivity {
         editor.apply();
 
         timer = new Timer();
-        int Period = 430;
+        int Period = 570; // 57 seconds
         int delay = 0;
         timer.schedule( new TimerTask() {
             @SuppressLint("SetTextI18n")

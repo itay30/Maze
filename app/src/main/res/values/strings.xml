@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Maze</string>
+    <string name="instruction_text">Hello, and welcome to Maze Game, here are several instructions for you
+        of how to play the game. to start solving the maze, move your finger slightly from the bottom left
+        corner upwards until the vibrate stops, when you will enter the maze from the right place, you will
+        hear a sound so you know you started the maze from the right place. from now on, you need to move
+        your finger on the screen and start solving the maze, when your phone vibrate, it means that you
+        got out of the right track, but, if you will go back to the right place of the maze, the vibrate
+        will stop and you can keep solving the maze. if you failed solving the maze, or you decided to
+        give up and, dont worry, you can start solving the maze again from the start, or, you can double
+        tap the top of your screen and you will get a new maze. when you will finish the maze correctly,
+        you will hear a sound. after that, to move on to the next maze, all you need to do is to take your
+        finger off the screen and thats it. you can now start solving the next maze. good luck! have fun!
+</string>
 </resources>
