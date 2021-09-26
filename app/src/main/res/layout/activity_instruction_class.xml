@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InstructionClass"
+    android:background="@color/windowBackground">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:text="hello, and welcome to Maze Game, here are several instructions for you of how to play the game, to start solveing the maze, move your finger slightlly from the bottom left corner upwards until the vibrate stops, when you will enter the maze from the right place, you will hear a sound so you know you started the maze from the right place. from now on, you need to move your finger on the screen and start solveing the maze, when your phone vibrate, it means that you got out of the right track, but if you will go back to the right place of the maze, the vibrate will stop and you can keep solveing the maze. when you will finish the maze correctlly, you will hear a sound. after that, if you want to start a new maze you will need to double tap the top of your screen."
+        android:textColor="#FFFFFF"
+        app:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:padding="10dp">
+    </TextView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
