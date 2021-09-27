@@ -151,8 +151,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        util.createMaze();
-        util.playAudioWithDelay(Utilities.levelOne, 1000);
+        if(!firstStart) {
+            util.createMaze();
+            util.playAudioWithDelay(Utilities.levelOne, 1000);
+        }
     } // on create end
 
 //    public void createMaze() {
@@ -329,10 +331,10 @@ class Utilities {
         MainActivity.arrow.setVisibility(View.VISIBLE);
 
         // Add star pic
-        int endCellStrawberryX = (solutionAreas[mMazeView.lengthOfSolutionPath - 1][0]) + 15;
-        int endCellStrawberryY = (solutionAreas[mMazeView.lengthOfSolutionPath - 1][1]) + 18;
-        MainActivity.star.setX(endCellStrawberryX);
-        MainActivity.star.setY(endCellStrawberryY);
+        int endCellStarX = (solutionAreas[mMazeView.lengthOfSolutionPath - 1][0]) + 15;
+        int endCellStarY = (solutionAreas[mMazeView.lengthOfSolutionPath - 1][1]) + 18;
+        MainActivity.star.setX(endCellStarX);
+        MainActivity.star.setY(endCellStarY);
         MainActivity.star.setVisibility(View.VISIBLE);
 
         nms.start();
