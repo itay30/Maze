@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * View of the line the user draws with their finger.
  */
@@ -19,7 +23,8 @@ public class FingerLine extends View {
     public static Paint mPaint, ePaint;
     private Path mPath;
     private final int[][] solutionPath;
-    private boolean solvedMaze;
+//    private boolean solvedMaze;
+    public static boolean solvedMaze, inTrack = true;
     private int flow = 0;
     boolean mazeStarted = false;
 
@@ -73,11 +78,13 @@ public class FingerLine extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mPath = new Path();
+                inTrack = false;
                 mPath.moveTo(event.getX(), event.getY());
                 if (xInCell && yInCell) {
                     mPaint.setColor(ContextCompat.getColor(getContext(), R.color.path));
                     Utilities.sms.start();
                     mazeStarted = true;
+                    inTrack = true;
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -87,29 +94,41 @@ public class FingerLine extends View {
                         if (flow == 0 && !mazeStarted){
                             Utilities.sms.start();
                             mazeStarted = true;
+                            inTrack = true;
                         }
                         mPaint.setColor(ContextCompat.getColor(getContext(), R.color.path));
-                        MainActivity.vibe.cancel();
+//                        MainActivity.vibe.cancel();
+                        inTrack = true;
                     } else if ((event.getX() >= solutionPath[flow + 1][0] && event.getX() <= solutionPath[flow + 1][2]) &&
                             (event.getY() >= solutionPath[flow + 1][1] && event.getY() <= solutionPath[flow + 1][3])) {
                         flow++;
+                        inTrack = true;
                     } else {
-                        Utilities.Vibrate(new long[]{0, 100});
+//                        Utilities.Vibrate(new long[]{0, 100});
+//                        Utilities.oot.start();
+                        inTrack = false;
                     }
                     if (flow == solutionPath.length - 1) {
+                        solvedMaze = true;
                         MainActivity.util.startGameSolvedAnimation();
                         Toast.makeText(this.getContext(), "Well Done!", Toast.LENGTH_SHORT).show();
-                        solvedMaze = true;
                         return true;
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                flow = 0;
-                mazeStarted = false;
-                MainActivity.vibe.cancel();
+                inTrack = true;
+//                MainActivity.vibe.cancel();
                 if(solvedMaze){
                     MainActivity.util.createMaze();
+                } else if (mazeStarted){
+                    MainActivity.util.playAudioWithDelay(Utilities.levelFailed, 800);
+                    Utilities.fb.start();
+                    flow = 0;
+                    mazeStarted = false;
+                } else{
+                    flow = 0;
+                    mazeStarted = false;
                 }
                 break;
             default:

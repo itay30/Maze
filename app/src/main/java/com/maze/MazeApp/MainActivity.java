@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static ImageView star, arrow;
     public static Context context;
     public static Utilities util;
+    Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         context = this;
         star = findViewById(R.id.star);
         arrow = findViewById(R.id.arrow);
+        thread = null;
 
         SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         Utilities.nms = MediaPlayer.create(this, R.raw.newmazesound);
         Utilities.sms = MediaPlayer.create(this, R.raw.startmazesound);
         Utilities.ws = MediaPlayer.create(this, R.raw.winningsound);
+        Utilities.levelFailed = MediaPlayer.create(this, R.raw.levelfailed);
+        Utilities.fb = MediaPlayer.create(this, R.raw.failedbuzzer);
+        Utilities.oot = MediaPlayer.create(this, R.raw.beepoutoftrack);
         Utilities.levelOne = MediaPlayer.create(this, R.raw.levelone);
         Utilities.levelTwo = MediaPlayer.create(this, R.raw.leveltwo);
         Utilities.levelThree = MediaPlayer.create(this, R.raw.levelthree);
@@ -155,6 +160,47 @@ public class MainActivity extends AppCompatActivity {
             util.createMaze();
             util.playAudioWithDelay(Utilities.levelOne, 1000);
         }
+
+//        thread = new Thread(new Runnable() {  //works but causes delay in vibrate because Thread.sleep it makes it impossible to solve the maze
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    if (!FingerLine.inTrack) {
+//                        try {
+//                            Thread.sleep(70);
+//                            vibe.vibrate(10000);
+////                            Utilities.oot.start();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    } else if (FingerLine.solvedMaze){ }
+//                      else {
+//                        vibe.cancel();
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
+
+        thread = new Thread(new Runnable() { // stops te vibrate after 1 second for unknown reason, need to fix it
+            @Override
+            public void run() {
+                while (true) {
+                    if (!FingerLine.inTrack) {
+                        vibe.vibrate(10000);
+                        while (!FingerLine.inTrack) {
+                            Log.d("TEST", "in vibrate while");
+                        }
+                    } else if (FingerLine.solvedMaze){ }
+                      else {
+                        Log.d("TEST", "out of if");
+                        vibe.cancel();
+                      }
+                }
+            }
+        });
+        thread.start();
+
     } // on create end
 
 //    public void createMaze() {
@@ -239,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
         return newArray;
     }
 
-
 //    private void onSwipeRight() {
 //        Log.d("TEST", "onSwipeRight");
 //        FingerLine.ePaint.setColor(ContextCompat.getColor((this), R.color.orange));
@@ -266,7 +311,7 @@ class Utilities {
     MazeView mMazeView;
     FingerLine mFingerLine;
     TextView current_level, mazes_solved;
-    static MediaPlayer nms, ws, sms, levelOne, levelTwo, levelThree, levelFour, levelFive, levelSix, levelSeven;
+    static MediaPlayer nms, ws, sms, oot, fb, levelFailed, levelOne, levelTwo, levelThree, levelFour, levelFive, levelSix, levelSeven;
 
 
     public void createMaze(){
@@ -285,9 +330,9 @@ class Utilities {
         while (mMazeView.lengthOfSolutionPath > pathLevel || mMazeView.lengthOfSolutionPath < pathLevel - 5){
             mMazeView = new MazeView(MainActivity.context, MAZE_SIZE);
         }
-        Log.d("lengthh", "length of the maze " + mMazeView.lengthOfSolutionPath);
-        Log.d("lengthh", "times solved maze " + timesSolved);
-        Log.d("lengthh", "formula " + pathLevel);
+//        Log.d("lengthh", "length of the maze " + mMazeView.lengthOfSolutionPath);
+//        Log.d("lengthh", "times solved maze " + timesSolved);
+//        Log.d("lengthh", "formula " + pathLevel);
 
         // Trace the path from start to farthestVertex using the line of predecessors,
         // apply this information to form an array of rectangles
@@ -366,7 +411,7 @@ class Utilities {
 
     public void startGameSolvedAnimation() {
         ws.start();
-        Vibrate(new long[]{0,150, 100, 2000, 20000}); // TA-DAMMMM Vibrate then 20 seconds sleep
+        Vibrate(new long[]{70, 150, 100, 2000, 20000}); // TA-DAMMMM Vibrate then 20 seconds sleep
         timesSolved++;
     }
 
